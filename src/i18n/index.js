@@ -49,7 +49,7 @@ const es = {
   secUnit:          'seg',
   eventTiming:      'Tiempos de Eventos',
   betweenDefend:    'Entre eventos de defensa',
-  defendHint:       'Líneas y puntos rojos (tajo / empuje)',
+  defendHint:       'Líneas y puntos rojos (tajo / estocada)',
   betweenAttack:    'Entre eventos de ataque',
   attackHint:       'Círculos verdes de apertura',
   globalSpacing:    'Espaciado global',
