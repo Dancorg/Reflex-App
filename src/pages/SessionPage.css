@@ -1,0 +1,195 @@
+.session-root {
+  position: fixed;
+  inset: 0;
+  background: #0d0d0f;
+}
+
+.session-root.game-mode .session-canvas {
+  cursor: crosshair;
+}
+
+.session-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.session-timer {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 2rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.08em;
+  pointer-events: none;
+  transition: color 0.3s;
+}
+
+.session-timer.urgent {
+  color: #ff4444;
+  animation: pulse 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  from { opacity: 0.7; }
+  to   { opacity: 1; }
+}
+
+/* ── Game HUD ── */
+.game-hud {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 28px;
+  pointer-events: none;
+}
+
+.hud-lives {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.hud-lives .heart-full {
+  font-size: 1.6rem;
+  color: #ff3355;
+  text-shadow: 0 0 8px rgba(255, 50, 80, 0.6);
+}
+
+.hud-lives .heart-empty {
+  font-size: 1.6rem;
+  color: rgba(255, 255, 255, 0.15);
+}
+
+.hud-score {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 2rem;
+  font-weight: 700;
+  color: rgba(50, 255, 100, 0.8);
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 12px rgba(50, 255, 80, 0.5);
+  min-width: 2.5ch;
+  text-align: right;
+}
+
+/* ── Game Over ── */
+.game-over-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(13, 13, 15, 0.9);
+  animation: fadeIn 0.4s ease;
+}
+
+.game-over-inner {
+  text-align: center;
+  color: #fff;
+}
+
+.game-over-icon {
+  font-size: 3.5rem;
+  color: #ff3355;
+  margin-bottom: 0.4rem;
+  animation: popIn 0.35s ease;
+}
+
+.game-over-inner h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.75rem;
+}
+
+.game-over-score {
+  font-size: 4rem;
+  font-weight: 800;
+  color: #33ff66;
+  font-family: 'SF Mono', monospace;
+  line-height: 1;
+  text-shadow: 0 0 20px rgba(50, 255, 80, 0.5);
+  animation: popIn 0.4s ease 0.1s both;
+}
+
+.game-over-label {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.45);
+  margin: 0.4rem 0 1.5rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.game-over-btn {
+  padding: 0.75rem 2rem;
+  background: #4a4bff;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.game-over-btn:hover  { background: #5a5cff; }
+.game-over-btn:active { transform: scale(0.97); }
+
+/* ── Session Complete ── */
+.session-complete {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(13, 13, 15, 0.85);
+  animation: fadeIn 0.4s ease;
+}
+
+.session-complete-inner {
+  text-align: center;
+  color: #fff;
+}
+
+.session-complete-icon {
+  font-size: 4rem;
+  color: #33ff66;
+  margin-bottom: 0.5rem;
+  animation: popIn 0.4s ease;
+}
+
+.session-complete-inner h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.session-score-line {
+  margin: 0.75rem 0 0;
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 0.04em;
+}
+
+.session-score-line strong {
+  color: #33ff66;
+  font-size: 1.4rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes popIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
