@@ -35,6 +35,8 @@ const en = {
   gameOver:         'Game Over',
   pointsScored:     'points scored',
   backToConfig:     'Back to Config',
+  exportConfig:     'Export Config',
+  importConfig:     'Import Config',
   // Speed labels [index 1-10]
   speed: ['', 'Very Slow', 'Slow', 'Slow-Med', 'Medium', 'Medium', 'Med-Fast', 'Fast', 'Fast', 'Very Fast', 'Maximum'],
   // Size labels [index 1-10], empty string = no label shown
@@ -78,6 +80,8 @@ const es = {
   gameOver:         'Fin del Juego',
   pointsScored:     'puntos conseguidos',
   backToConfig:     'Volver a configuración',
+  exportConfig:     'Exportar Config',
+  importConfig:     'Importar Config',
   speed: ['', 'Muy lento', 'Lento', 'Lento-Med', 'Medio', 'Medio', 'Med-Rápido', 'Rápido', 'Rápido', 'Muy rápido', 'Máximo'],
   size:  ['', 'Mínimo', '', '', 'Medio', '', '', 'Grande', '', '', 'Máximo'],
 }

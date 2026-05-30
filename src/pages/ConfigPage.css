@@ -354,6 +354,43 @@
   border-color: #4a4bff;
 }
 
+/* ── Export / Import row ── */
+.config-io-row {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0 2rem 0;
+  margin-bottom: 0.75rem;
+}
+
+.io-btn {
+  flex: 1;
+  padding: 0.55rem 0.75rem;
+  background: transparent;
+  border: 1px solid #2a2b30;
+  border-radius: 8px;
+  color: #7a7b8a;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.io-btn:hover {
+  background: #1e1f26;
+  border-color: #44455a;
+  color: #c8c8d4;
+}
+
+.io-icon {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
 /* ── Start button ── */
 .start-btn {
   display: block;

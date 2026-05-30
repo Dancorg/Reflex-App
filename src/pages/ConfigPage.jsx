@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { makeT } from '../i18n'
 import './ConfigPage.css'
 
@@ -53,6 +54,34 @@ function Toggle({ label, hint, checked, onChange }) {
 
 export default function ConfigPage({ config, onChange, onStart }) {
   const t = makeT(config.locale)
+  const fileInputRef = useRef(null)
+
+  function handleExport() {
+    const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'fencing-reflex-config.json'
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  function handleImport(e) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = ev => {
+      try {
+        const parsed = JSON.parse(ev.target.result)
+        // Merge: current config fills in any keys missing from the imported file
+        onChange({ ...config, ...parsed })
+      } catch {
+        // Silently ignore malformed JSON
+      }
+    }
+    reader.readAsText(file)
+    e.target.value = ''  // reset so the same file can be re-imported
+  }
 
   const totalSecs = config.duration.minutes * 60 + config.duration.seconds
 
@@ -242,6 +271,22 @@ export default function ConfigPage({ config, onChange, onStart }) {
               </div>
             )}
           </section>
+        </div>
+
+        <div className="config-io-row">
+          <button className="io-btn" onClick={handleExport}>
+            <span className="io-icon">↓</span> {t('exportConfig')}
+          </button>
+          <button className="io-btn" onClick={() => fileInputRef.current.click()}>
+            <span className="io-icon">↑</span> {t('importConfig')}
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".json,application/json"
+            style={{ display: 'none' }}
+            onChange={handleImport}
+          />
         </div>
 
         <button
