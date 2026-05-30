@@ -76,7 +76,8 @@ export default function SessionPage({ config, onComplete }) {
 
       function onStart(e) {
         e.preventDefault()
-        slashRef.current = { drawing: true, suppressed: false, points: [pt(e)], fadeStart: 0 }
+        const { x, y } = pt(e)
+        slashRef.current = { drawing: true, suppressed: false, points: [{ x, y, t: performance.now() }], fadeStart: 0 }
       }
 
       function onMove(e) {
@@ -84,9 +85,9 @@ export default function SessionPage({ config, onComplete }) {
         const slash = slashRef.current
         if (!slash.drawing || slash.suppressed) return
         const prev = slash.points[slash.points.length - 1]
-        const cur  = pt(e)
-        slash.points.push(cur)
-        engineRef.current?.testSlash(prev.x, prev.y, cur.x, cur.y)
+        const { x, y } = pt(e)
+        slash.points.push({ x, y, t: performance.now() })
+        engineRef.current?.testSlash(prev.x, prev.y, x, y)
       }
 
       function onEnd(e) {

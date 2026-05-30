@@ -381,7 +381,9 @@ function makeScheduler(canvas, config, startTs) {
 
 // ── Engine ────────────────────────────────────────────────────────────────────
 
-const SLASH_FADE_MS = 450
+const SLASH_FADE_MS  = 450
+const SLASH_TRAIL_MS = 455   // how long each point persists in the trail
+const SLASH_MAX_PX   = 350   // maximum pixel length of the visible trail
 
 export function createEngine(canvas, config, callbacks = {}) {
   const ctx = canvas.getContext('2d')
@@ -438,22 +440,48 @@ export function createEngine(canvas, config, callbacks = {}) {
   function drawSlash(ts) {
     const slash = callbacks.getSlash?.()
     if (!slash || slash.points.length < 2) return
-    const alpha = slash.drawing
+
+    const now = performance.now()
+
+    // Trim points older than the trail window (keep ≥2)
+    while (slash.points.length > 2 && now - slash.points[0].t > SLASH_TRAIL_MS) {
+      slash.points.shift()
+    }
+
+    // Trim from the front until the path fits within SLASH_MAX_PX
+    let totalLen = 0
+    for (let i = 1; i < slash.points.length; i++) {
+      totalLen += Math.hypot(slash.points[i].x - slash.points[i-1].x, slash.points[i].y - slash.points[i-1].y)
+    }
+    while (slash.points.length > 2 && totalLen > SLASH_MAX_PX) {
+      totalLen -= Math.hypot(slash.points[1].x - slash.points[0].x, slash.points[1].y - slash.points[0].y)
+      slash.points.shift()
+    }
+
+    if (slash.points.length < 2) return
+
+    const fadeAlpha = slash.drawing
       ? 1
       : Math.max(0, 1 - (ts - slash.fadeStart) / SLASH_FADE_MS)
-    if (alpha <= 0) return
+    if (fadeAlpha <= 0) return
+
     ctx.save()
-    ctx.globalAlpha = alpha
-    ctx.beginPath()
-    ctx.moveTo(slash.points[0].x, slash.points[0].y)
-    for (let i = 1; i < slash.points.length; i++) ctx.lineTo(slash.points[i].x, slash.points[i].y)
-    ctx.strokeStyle = 'rgba(210, 240, 255, 0.95)'
     ctx.lineWidth = 3
     ctx.lineCap = 'round'
     ctx.lineJoin = 'round'
     ctx.shadowColor = 'rgba(150, 210, 255, 0.8)'
     ctx.shadowBlur = 10
-    ctx.stroke()
+
+    for (let i = 1; i < slash.points.length; i++) {
+      const age = now - slash.points[i].t
+      ctx.globalAlpha = Math.max(0, 1 - age / SLASH_TRAIL_MS) * fadeAlpha
+      ctx.strokeStyle = 'rgba(210, 240, 255, 0.95)'
+      ctx.beginPath()
+      ctx.moveTo(slash.points[i - 1].x, slash.points[i - 1].y)
+      ctx.lineTo(slash.points[i].x, slash.points[i].y)
+      ctx.stroke()
+    }
+
     ctx.restore()
   }
 
